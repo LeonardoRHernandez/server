@@ -1,0 +1,758 @@
+{
+    "swagger": "2.0",
+    "info": {
+    "version": "1.0.0",
+    "title": "REST API BIENES_RAICES",
+    "description": "<html><body>Documentacion del proyecto <b>Bines_Raices</b> </body></html>",
+    "license": {
+    "name": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+    }
+    },
+    "host": "localhost:3000",
+    "basePath": "",
+    "tags": [
+        {
+            "name": "Usuarios",
+            "description": "API para obtener información de los usuarios de Bienes_raices"
+        },
+        {
+            "name": "Vendedores",
+            "description": "API para obtener información de los Vendedores que trabajan en Bienes_raices"
+        },
+        {
+            "name": "Roles",
+            "description": "API para obtener información de roles existentes en el CIIT"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes":[
+        "application/json"
+    ],
+    "produces" :[
+        "application/json"
+    ],
+    "paths":
+    {
+        "/api/usuarios/mostrarUsuarios/":
+        {
+            "get": {
+                "tags": ["Usuarios"],
+                "summary": "Listado de todos los usuarios que existen de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información detallada de todos los usuarios que existen de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los usuarios existentes de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "nombre": "Leonardo",
+                                    "telefono": "9531555416",
+                                    "correo": "leo@gmail.com",
+                                    "contraseña": "leo1234"
+                                },
+                                {
+                                    "id": 2,
+                                    "nombre": "Andres López",
+                                    "telefono": "9531555416",
+                                    "correo": "andres@gmail.com",
+                                    "contraseña": "and5678"
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/usuarios"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/usuarios/crearUsuario/":
+        {
+            "post":
+            {
+                "summary":"Agrega un usuario en Bienes_raices  .",
+                "operationId": "create",
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario a agregar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoUsuario"
+                        }
+                    }
+                ],
+                "tags": ["Usuarios"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/usuarios/mostrarUsuario/{id}":
+        {
+            "get": {
+                "tags": ["Usuarios"],
+                "summary": "Ver un usuario de Bienes_raices",
+                "description": "<p>Servicio que que permite ver un usuario de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cómo agregar un nuevo usuario de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":{
+                            "application/json":
+                            [
+                                {
+                                    "id": 3,
+                                    "nombre":"Juan Perez",
+                                    "telefono": "9531555416",
+                                    "correo": "juan@gmail.com",
+                                    "contraseña": "1234"
+                                }
+                            ]
+                        },
+                        "schema":{
+                            "$ref": "#/definitions/usuario"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id del usuario",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/usuarios/actualizarUsuario/{id}":
+        {
+            "put":
+            {
+                "summary":"Modifica un usuario de Bienes_raices",
+                "operationId": "update",
+                "consumes":
+                [
+                    "application/json"
+                ],
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true,
+                        "default": 10
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario a modificar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoUsuario"
+                        }
+                    }
+                ],
+                "tags": ["Usuarios"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/usuarios/eliminarUsuario/{id}":
+        {
+            "delete": {
+                "tags": ["Usuarios"],
+                "summary": "Eliminar un usuario de bienes_raices",
+                "description": "<p>Servicio que elimina un usuario de Bienes_raices</p> <p>&nbsp;</p> <p><em><strong>¿Como eliminar un usuario de Bienes_raices?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id del usuario a eliminar.",
+                        "type": "number",
+                        "default": "4"
+                    }
+                ]
+            }
+        },
+
+
+
+
+        "/api/vendedores/mostrarVendedores/":
+        {
+            "get": {
+                "tags": ["Vendedores"],
+                "summary": "Listado de todos los Vendedores que existen de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información detallada de todos los Vendedores que existen de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los Vendedores existentes de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "nombre": "Leonardo",
+                                    "telefono": "9531555416",
+                                    "correo": "leo@gmail.com",
+                                    "contraseña": "leo1234"
+                                },
+                                {
+                                    "id": 2,
+                                    "nombre": "Andres López",
+                                    "telefono": "9531555416",
+                                    "correo": "andres@gmail.com",
+                                    "contraseña": "and5678"
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/vendedores"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/vendedores/crearVendedor/":
+        {
+            "post":
+            {
+                "summary":"Agrega un vendedores en Bienes_raices  .",
+                "operationId": "create",
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "Vendedores",
+                        "in": "body",
+                        "description": "Vendedor a agregar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoVendedor"
+                        }
+                    }
+                ],
+                "tags": ["Vendedores"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/vendedores/mostrarVendedor/{id}":
+        {
+            "get": {
+                "tags": ["Vendedores"],
+                "summary": "Ver un usuario de Bienes_raices",
+                "description": "<p>Servicio que que permite ver un vendedores de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cómo agregar un nuevo vendedores de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":{
+                            "application/json":
+                            [
+                                {
+                                    "id": 3,
+                                    "nombre":"Juan Perez",
+                                    "telefono": "9531555416",
+                                    "correo": "juan@gmail.com",
+                                    "contraseña": "1234"
+                                }
+                            ]
+                        },
+                        "schema":{
+                            "$ref": "#/definitions/vendedor"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id del vendedor",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/vendedores/actualizarVendedor/{id}":
+        {
+            "put":
+            {
+                "summary":"Modifica un vendedor de Bienes_raices",
+                "operationId": "update",
+                "consumes":
+                [
+                    "application/json"
+                ],
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id del vendedor",
+                        "required": true,
+                        "default": 10
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Vendedor a modificar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoVendedor"
+                        }
+                    }
+                ],
+                "tags": ["Vendedores"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/vendedores/eliminarVendedor/{id}":
+        {
+            "delete": {
+                "tags": ["Vendedores"],
+                "summary": "Eliminar un vendedor de bienes_raices",
+                "description": "<p>Servicio que elimina un usuario de Bienes_raices</p> <p>&nbsp;</p> <p><em><strong>¿Como eliminar un vendedor de Bienes_raices?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id del vendedor a eliminar.",
+                        "type": "number",
+                        "default": "4"
+                    }
+                ]
+            }
+        },
+
+
+
+        "/api/empresas/mostrarEmpresas/":
+        {
+            "get": {
+                "tags": ["Empresas"],
+                "summary": "Listado de todos las empresas que existen en el CIIT.",
+                "description": "<p>Servicio que devuelve la información detallada de todas las empresas que existen en el CIIT.</p> <p>&nbsp;</p> <p><em><strong>¿Cuáles son las empresas existentes en el CIIT?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "nombre_empresa": "Bimbo S.A. de C.V.",
+                                    "direccion": "Calle 2 #10 Col. Las Palmas",
+                                    "rfc": "167529",
+                                    "teléfono": "9531264879",
+                                    "responsable": "Juan Perez"
+                                },
+                                {
+                                    "id": 2,
+                                    "nombre_empresa": "Grupo Modelo S.A. de C.V.",
+                                    "direccion": "Calle Independencia S/N Col. Antonio de León",
+                                    "rfc": "531649",
+                                    "teléfono": "9512346579",
+                                    "responsable": "Roberto Martínez"
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/empresas"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/empresas/mostrarEmpresa/{id}":
+        {
+            "get": {
+                "tags": ["Empresas"],
+                "summary": "Ver una empresa en el CIIT.",
+                "description": "<p>Servicio que que permite ver una empresa en el CIIT.</p><p>&nbsp;</p><p><em><strong>¿Cómo ver una empresa del CIIT?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":{
+                            "application/json":
+                            [
+                                {
+                                    "id": 1,
+                                    "nombre_empresa": "Bimbo S.A. de C.V.",
+                                    "direccion": "Calle 2 #10 Col. Las Palmas",
+                                    "rfc": "167529",
+                                    "teléfono": "9531264879",
+                                    "responsable": "Juan Perez"
+                                }
+                            ]
+                        },
+                        "schema":{
+                            "$ref": "#/definitions/empresa"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id de la empresa",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/empresas/crearEmpresa/":
+        {
+            "post":
+            {
+                "summary":"Agrega una empresa en el CIIT.",
+                "operationId": "create",
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "Empresa",
+                        "in": "body",
+                        "description": "Empresa a agregar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevaEmpresa"
+                        }
+                    }
+                ],
+                "tags": ["Empresas"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+
+        "/api/roles/mostrarRoles/":
+        {
+            "get": {
+                "tags": ["Roles"],
+                "summary": "Listado de todos los roles que existen en el CIIT.",
+                "description": "<p>Servicio que devuelve la información detallada de todas los roles que existen en el CIIT.</p> <p>&nbsp;</p> <p><em><strong>¿Cuáles son los roles existentes en el CIIT?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "rol": "Administrador"
+                                },
+                                {
+                                    "id": 2,
+                                    "rol": "Usuario"
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/roles"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        }
+    },
+    "definitions":
+    {
+        "usuario":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "type": "number",
+                    "description": "Codigo unico que permite identificar al usuario."
+                },
+                "nombre":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del usuario."
+                },
+                "telefono":
+                {
+                    "type": "string",
+                    "description": "Guarda el telefono del usuario."
+                },
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Guarda el correo del usuario."
+                },
+                "contraseña":
+                {
+                    "type": "string",
+                    "description": "Guarda la contraseña del usuario."
+                }
+            }
+        },
+        "usuarios":
+        {
+            "type": "array",
+            "items":
+            {
+                "$ref": "#/definitions/usuario"
+            }
+        },
+        "NuevoUsuario":
+        {
+            "type": "object",
+            "properties":
+            {
+                "nombre":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del usuario."
+                },
+                "telefono":
+                {
+                    "type": "string",
+                    "description": "Guarda el telefono del usuario."
+                },
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Guarda el correo del usuario."
+                },
+                "contraseña":
+                {
+                    "type": "string",
+                    "description": "Guarda la contraseña del usuario."
+                }
+            }
+        },
+
+        "vendedor":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "type": "number",
+                    "description": "Codigo unico que permite identificar al vendedor."
+                },
+                "nombre":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del vendedor."
+                },
+                "telefono":
+                {
+                    "type": "string",
+                    "description": "Guarda el telefono del vendedor."
+                },
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Guarda el correo del vendedor."
+                },
+                "contraseña":
+                {
+                    "type": "string",
+                    "description": "Guarda la contraseña del vendedor."
+                }
+            }
+        },
+        "vendedores":
+        {
+            "type": "array",
+            "items":
+            {
+                "$ref": "#/definitions/vendedor"
+            }
+        },
+        "NuevoVendedor":
+        {
+            "type": "object",
+            "properties":
+            {
+                "nombre":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del vendedor."
+                },
+                "telefono":
+                {
+                    "type": "string",
+                    "description": "Guarda el telefono del vendedor."
+                },
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Guarda el correo del vendedor."
+                },
+                "contraseña":
+                {
+                    "type": "string",
+                    "description": "Guarda la contraseña del vendedor."
+                }
+            }
+        },
+        
+        "rol":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "type": "nummber",
+                    "description": "Codigo unico que permite identificar al rol."
+                },
+                "rol":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del rol."
+                }
+            }
+        },
+        "roles":
+        {
+            "type": "array",
+            "items":
+            {
+                "$ref": "#/definitions/rol"
+            }
+        }
+    }
+}
