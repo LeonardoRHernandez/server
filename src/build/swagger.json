@@ -252,7 +252,7 @@
         "/api/usuarios/iniciarSesion/": 
         {
             "post": {
-                "tags": ["Iniciar sesion"], 
+                "tags": ["Usuarios"], 
                 "summary": "validar al usuario",
                 "description": "valida y devuelve los datos del usuario si es que este existe",
                 "responses": {
