@@ -59,6 +59,8 @@ class UsuariosController {
             const resp = yield database_1.default.query(consulta);
             if (resp.length > 0) {
                 res.json(resp);
+            }else{
+                
             }
         });
     }
