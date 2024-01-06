@@ -253,7 +253,7 @@
         {
             "post": {
                 "tags": ["Usuarios"], 
-                "summary": "validar al usuario",
+                "summary": "validar al usuarios",
                 "description": "valida y devuelve los datos del usuario si es que este existe",
                 "responses": {
                     "200": {
