@@ -260,11 +260,11 @@
                         "description": "Pr0cedimiento Exitoso",
                         "examples": {"application/json": [
                             {
-                                "UsuarioID": 2,
-                                "Nombre": "Ana",
-                                "Apellido": "Gómez",
-                                "correo": "ana@gmail.com",
-                                "Contrasena": "clave456"
+                                "id": 3,
+                                "nombre":"Juan Perez",    
+                                "telefono": "9531555416",
+                                "correo": "juan@gmail.com",
+                                "contraseña": "1234"
                             }
                         ]
                         }, "schema": {
