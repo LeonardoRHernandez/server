@@ -9,7 +9,7 @@
     "url": "https://opensource.org/licenses/MIT"
     }
     },
-    "host": "localhost:3000",
+    "host": "proyecto-server.onrender.com",
     "basePath": "",
     "tags": [
         {
@@ -21,16 +21,28 @@
             "description": "API para obtener información de los Vendedores que trabajan en Bienes_raices"
         },
         {
-            "casas": "Casas",
+            "name": "Casas",
             "description": "API para obtener información sobre las casas en Bienes_raices"
         },
         {
-            "Nosotros": "Nosotros",
+            "name": "Nosotros",
             "description": "API para obtener información de la empresa Bienes_raices"
         },
         {
-            "Ventas": "Ventas",
-            "description": "API para realizar la venta de una propiedad de la empresa Bienes_raices"
+            "name": "mas_info",
+            "description": "API para obtener mas informacion de una propiedad de la empresa Bienes_raices"
+        },
+        {
+            "name": "Compra",
+            "description": "API para realizar la compra de una propiedad de la empresa Bienes_raices"
+        },
+        {
+            "name": "citas",
+            "description": "API para realizar la cita de una propiedad de la empresa Bienes_raices"
+        },
+        {
+            "name": "administrador",
+            "description": "API para realizar el CRUD de administradores de la empresa Bienes_raices"
         }
     ],
     "schemes": [
@@ -237,6 +249,58 @@
                 ]
             }
         },
+        "/api/usuarios/iniciarSesion/": 
+        {
+            "post": {
+                "tags": ["Iniciar sesion"], 
+                "summary": "validar al usuario",
+                "description": "valida y devuelve los datos del usuario si es que este existe",
+                "responses": {
+                    "200": {
+                        "description": "Pr0cedimiento Exitoso",
+                        "examples": {"application/json": [
+                            {
+                                "UsuarioID": 2,
+                                "Nombre": "Ana",
+                                "Apellido": "Gómez",
+                                "correo": "ana@gmail.com",
+                                "Contrasena": "clave456"
+                            }
+                        ]
+                        }, "schema": {
+                            "$ref": "#/definitions/verificar"
+                        }
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario agregado",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "correo": {
+                                    "type": "string",
+                                    "description": "Correo del usuario(maximo 100 caracteres)",
+                                    "default": "ana@gmail.com"
+                                },
+                                "contrasena": {
+                                    "type": "string",
+                                    "description": "Contraseña del usuario (maximo de 100 caracteres)",
+                                    "default": "clave456"
+                                }
+                            }
+                        }
+                    }
+                    
+                ]
+            }
+        },
 
 
 
@@ -296,7 +360,7 @@
                 "parameters":
                 [
                     {
-                        "name": "Vendedores",
+                        "name": "Vendedor",
                         "in": "body",
                         "description": "Vendedor a agregar.",
                         "required": true,
@@ -386,7 +450,7 @@
                         "default": 10
                     },
                     {
-                        "name": "Usuario",
+                        "name": "Vendedor",
                         "in": "body",
                         "description": "Vendedor a modificar.",
                         "required": true,
@@ -434,7 +498,6 @@
                 ]
             }
         },
-
         
 
         "/api/casas/mostrarCasas/":
@@ -492,7 +555,7 @@
                 "parameters":
                 [
                     {
-                        "name": "Casas",
+                        "name": "Casa",
                         "in": "body",
                         "description": "Casa a agregar.",
                         "required": true,
@@ -588,7 +651,7 @@
                         "required": true,
                         "schema":
                         {
-                            "$ref" : "#/definitions/NuevoVendedor"
+                            "$ref" : "#/definitions/NuevaCasa"
                         }
                     }
                 ],
@@ -695,7 +758,7 @@
                     {
                         "name": "Nosotros",
                         "in": "body",
-                        "description": "empresa a modificar.",
+                        "description": "Nosotros a modificar.",
                         "required": true,
                         "schema":
                         {
@@ -713,6 +776,749 @@
                         "description": "Prohibido"
                     }
                 }
+            }
+        },
+        "/api/mas_info/mostrarInfo/":
+        {
+            "get": {
+                "tags": ["mas_info"],
+                "summary": "Listado de toda la informacion detallada que tiene una casa de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información detallada de todos los usuarios que existen de Bienes_raices</p><p>&nbsp;</p><p><em><strong></strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id_info": 1,
+                                    "id_casainfo":2,
+                                    "descripcion_detallada": "lorem ipsum dolor sit amet, consectetur"
+                                },
+                                {
+                                    "id_info": 1,
+                                    "id_casainfo":2,
+                                    "descripcion_detallada": "lorem ipsum dolor sit amet, consectetur"
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/mas_infos"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+
+        "/api/mas_info/mostrarInfo/{id}":
+        {
+            "get": {
+                "tags": ["mas_info"],
+                "summary": "Servicio que regresa toda la informacion detallada que tiene una casa de Bienes_raices",
+                "description": "<p>Servicio que que permite ver la informacion detallada de una casa de Bienes_raices</p><p>&nbsp;</p><p><em><strong></strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":{
+                            "application/json":
+                            [
+                                {
+                                    "id_info": 1,
+                                    "id_casainfo":2,
+                                    "descripcion_detallada": "lorem ipsum dolor sit amet, consectetur"
+                                }
+                            ]
+                        },
+                        "schema":{
+                            "$ref": "#/definitions/mas_info"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id de la informacion",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/mas_info/actualizarInfo/{id}":
+        {
+            "put":
+            {
+                "summary":"Modifica la informacion detallada de una propiedad de Bienes_raices",
+                "operationId": "update",
+                "consumes":
+                [
+                    "application/json"
+                ],
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de la informacion",
+                        "required": true,
+                        "default": 10
+                    },
+                    {
+                        "name": "Info",
+                        "in": "body",
+                        "description": "Info a modificar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoInfo"
+                        }
+                    }
+                ],
+                "tags": ["mas_info"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/mas_info/crearInfo/":
+        {
+            "post":
+            {
+                "summary":"Agrega una nueva Informacion detallada de una propiedad en Bienes_raices  .",
+                "operationId": "create",
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "info",
+                        "in": "body",
+                        "description": "info a agregar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoInfo"
+                        }
+                    }
+                ],
+                "tags": ["mas_info"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/mas_info/eliminarInfo/{id}":
+        {
+            "delete": {
+                "tags": ["mas_info"],
+                "summary": "Eliminar la informacion detallada de una casa de bienes_raices",
+                "description": "<p>Servicio que elimina la informacion detallada de una casa de Bienes_raices</p> <p>&nbsp;</p> <p><em><strong>¿Como eliminar una informacion de una casa de Bienes_raices?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id de la informacion a eliminar.",
+                        "type": "number",
+                        "default": "4"
+                    }
+                ]
+            }
+        },
+
+        "/api/compras/mostrarCompra/":
+        {
+            "get": {
+                "tags": ["Compra"],
+                "summary": "Listado de todas las compras realizadas en la app de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información de todas las compras realizadas de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cuáles son las compras realizadas de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "id-vendedor":1,
+                                    "id_casa":2,
+                                    "fecha":"2023-12-20",
+                                    "id_usuario": 2
+                                },
+                                {
+                                    "id": 2,
+                                    "id-vendedor":3,
+                                    "id_casa":8,
+                                    "fecha":"2023-12-20",
+                                    "id_usuario": 2
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/compras"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+
+        "/api/compras/mostrarCompra/{id}":
+        {
+            "get": {
+                "tags": ["Compra"],
+                "summary": "Ver una informacion de una compra realizada en la app de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información de una compra realizada de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cual compra se realizado de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":{
+                            "application/json":
+                            [
+                                {
+                                    "id": 1,
+                                    "id-vendedor":1,
+                                    "id_casa":2,
+                                    "fecha":"2023-12-20",
+                                    "id_usuario": 2
+                                }
+                            ]
+                        },
+                        "schema":{
+                            "$ref": "#/definitions/compra"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id de la informacion",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/compras/crearCompra/":
+        {
+            "post":
+            {
+                "summary":"Agrega una nueva compra  de una propiedad en Bienes_raices  .",
+                "operationId": "create",
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "compra",
+                        "in": "body",
+                        "description": "compra a agregar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevaCompra"
+                        }
+                    }
+                ],
+                "tags": ["Compra"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/compras/actualizarCompra/{id}":
+        {
+            "put":
+            {
+                "summary":"Modifica la informacion de la compra de una propiedad de Bienes_raices",
+                "operationId": "update",
+                "consumes":
+                [
+                    "application/json"
+                ],
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de la informacion",
+                        "required": true,
+                        "default": 10
+                    },
+                    {
+                        "name": "Info",
+                        "in": "body",
+                        "description": "Info a modificar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevaCompra"
+                        }
+                    }
+                ],
+                "tags": ["Compra"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        
+        "/api/citas/mostrarCitas/":
+        {
+            "get": {
+                "tags": ["citas"],
+                "summary": "Listado de todas las citas realizadas en la app de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información de todas las citas realizadas de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cuáles son las citas realizadas de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "id-casaCita":5,
+                                    "id_vendedorCita":3,
+                                    "fecha":"2023-12-06"
+                                },
+                                {
+                                    "id": 2,
+                                    "id-casaCita":1,
+                                    "id_vendedorCita":2,
+                                    "fecha":"2023-12-06"
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/citas"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/citas/actualizarCita/{id}":
+        {
+            "put":
+            {
+                "summary":"Modifica la informacion sobre la cita para visitar una propiedad de Bienes_raices",
+                "operationId": "update",
+                "consumes":
+                [
+                    "application/json"
+                ],
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de la informacion",
+                        "required": true,
+                        "default": 10
+                    },
+                    {
+                        "name": "Info",
+                        "in": "body",
+                        "description": "Info a modificar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevaCita"
+                        }
+                    }
+                ],
+                "tags": ["citas"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/citas/crearCita/":
+        {
+            "post":
+            {
+                "summary":"Agrega una nueva cita para la visita de una propiedad en Bienes_raices  .",
+                "operationId": "create",
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "cita",
+                        "in": "body",
+                        "description": "cita a agregar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevaCita"
+                        }
+                    }
+                ],
+                "tags": ["citas"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/citas/eliminarCita/{id}":
+        {
+            "delete": {
+                "tags": ["citas"],
+                "summary": "Eliminar una cita para la visita de una casa de bienes_raices",
+                "description": "<p>Servicio que elimina la cita de una casa de Bienes_raices</p> <p>&nbsp;</p> <p><em><strong>¿Como eliminar una cita de una casa de Bienes_raices?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id de la informacion a eliminar.",
+                        "type": "number",
+                        "default": "4"
+                    }
+                ]
+            }
+        },
+
+
+        "/api/citas/mostrarCitas/{id}":
+        {
+            "get": {
+                "tags": ["citas"],
+                "summary": "Ver una informacion de una cita realizada en la app de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información de una cita realizada de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cual cita se realizado de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":{
+                            "application/json":
+                            [
+                                {
+                                    "id": 1,
+                                    "id-casaCita":1,
+                                    "id_vendedorCita":2,
+                                    "fecha":"2023-12-06"
+                                }
+                            ]
+                        },
+                        "schema":{
+                            "$ref": "#/definitions/cita"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id de la informacion",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/Administradores/mostrarAdministradores/":
+        {
+            "get": {
+                "tags": ["administrador"],
+                "summary": "Listado de todos los administradores que existen de Bienes_raices",
+                "description": "<p>Servicio que devuelve la información detallada de todos los administradores que existen de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los administradores existentes de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":
+                        {
+                            "application/json": [
+                                {
+                                    "id": 1,
+                                    "nombre": "Leonardo",
+                                    "telefono": "9531555416",
+                                    "correo": "leo@gmail.com",
+                                    "contraseña": "leo1234"
+                                },
+                                {
+                                    "id": 2,
+                                    "nombre": "Andres López",
+                                    "telefono": "9531555416",
+                                    "correo": "andres@gmail.com",
+                                    "contraseña": "and5678"
+                                }
+                            ]
+                        },
+                        "schema":
+                        {
+                            "$ref": "#/definitions/administradores"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/administradores/crearAdministrador/":
+        {
+            "post":
+            {
+                "summary":"Agrega un administrador en Bienes_raices  .",
+                "operationId": "create",
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "administrador",
+                        "in": "body",
+                        "description": "administrador a agregar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoAdministrador"
+                        }
+                    }
+                ],
+                "tags": ["administrador"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/administradores/mostrarAdministrador/{id}":
+        {
+            "get": {
+                "tags": ["administrador"],
+                "summary": "Ver un administrador de Bienes_raices",
+                "description": "<p>Servicio que que permite ver un administrador de Bienes_raices</p><p>&nbsp;</p><p><em><strong>¿Cómo agregar un nuevo administrador de Bienes_raices?</strong></em></p>",
+                "responses": 
+                {
+                    "200":
+                    {
+                        "description": "OK",
+                        "examples":{
+                            "application/json":
+                            [
+                                {
+                                    "id": 3,
+                                    "nombre":"Juan Perez",
+                                    "telefono": "9531555416",
+                                    "correo": "juan@gmail.com",
+                                    "contraseña": "1234"
+                                }
+                            ]
+                        },
+                        "schema":{
+                            "$ref": "#/definitions/administrador"
+                        }
+                    },
+                    "403":
+                    {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id del usuario",
+                        "type": "number",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/api/administradores/actualizarAdministrador/{id}":
+        {
+            "put":
+            {
+                "summary":"Modifica un administrador de Bienes_raices",
+                "operationId": "update",
+                "consumes":
+                [
+                    "application/json"
+                ],
+                "produces": 
+                [
+                    "application/json"
+                ],
+                "parameters":
+                [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id del usuario",
+                        "required": true,
+                        "default": 10
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario a modificar.",
+                        "required": true,
+                        "schema":
+                        {
+                            "$ref" : "#/definitions/NuevoAdministrador"
+                        }
+                    }
+                ],
+                "tags": ["administrador"],
+                "responses":
+                {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        },
+        "/api/administradores/eliminarAdministrador/{id}":
+        {
+            "delete": {
+                "tags": ["administrador"],
+                "summary": "Eliminar un administrador de bienes_raices",
+                "description": "<p>Servicio que elimina un administrador de Bienes_raices</p> <p>&nbsp;</p> <p><em><strong>¿Como eliminar un administrador de Bienes_raices?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Id del administrador a eliminar.",
+                        "type": "number",
+                        "default": "4"
+                    }
+                ]
             }
         }
 
@@ -855,6 +1661,73 @@
                 }
             }
         },
+        "administrador":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "type": "number",
+                    "description": "Codigo unico que permite identificar al administrador."
+                },
+                "nombre":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del administrador."
+                },
+                "telefono":
+                {
+                    "type": "string",
+                    "description": "Guarda el telefono del administrador."
+                },
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Guarda el correo del administrador."
+                },
+                "contraseña":
+                {
+                    "type": "string",
+                    "description": "Guarda la contraseña del administrador."
+                }
+            }
+        },
+        "administradores":
+        {
+            "type": "array",
+            "items":
+            {
+                "$ref": "#/definitions/administrador"
+            }
+        },
+        "NuevoAdministrador":
+        {
+            "type": "object",
+            "properties":
+            {
+                "nombre":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del administrador."
+                },
+                "telefono":
+                {
+                    "type": "string",
+                    "description": "Guarda el telefono del administrador."
+                },
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Guarda el correo del administrador."
+                },
+                "contrasenia":
+                {
+                    "type": "string",
+                    "description": "Guarda la contraseña del administrador."
+                }
+            }
+        },
 
         "casa":
         {
@@ -894,7 +1767,7 @@
             "type": "array",
             "items":
             {
-                "$ref": "#/definitions/vendedor"
+                "$ref": "#/definitions/casa"
             }
         },
         "NuevaCasa":
@@ -929,13 +1802,50 @@
                 }
             }
         },
+        "Nosotro":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "type": "number",
+                    "description": "Codigo unico que permite identificar la informacion de la empresa."
+                },
+                "nombre":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre de la empresa"
+                },
+                "ubicacion":
+                {
+                    "type": "string",
+                    "description": "Guarda la ubicacion de la empresa"
+                },
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Guarda el correo de la empresa"
+                },
+                "director":
+                {
+                    "type": "string",
+                    "description": "Guarda el nombre del director de la empresa"
+                },
+                "descripcion":
+                {
+                    "type": "string",
+                    "description": "Guarda una descripcion de la empresa."
+                }
+            }
+        },
 
         "Nosotros":
         {
             "type": "array",
             "items":
             {
-                "$ref": "#/definitions/nosotros"
+                "$ref": "#/definitions/Nosotro"
             }
         },
 
@@ -973,6 +1883,210 @@
                 {
                     "type": "string",
                     "description": "Guarda una descripcion de la empresa."
+                }
+            }
+        },
+
+        "mas_info":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id_info":
+                {
+                    "type": "number",
+                    "description": "Codigo unico que permite identificar la informacion detallada de la propiedad"
+                },
+                "id_casainfo":
+                {
+                    "type": "number",
+                    "description": "ID que permite identificar la casa la cual contiene la informacion detallada"
+                },
+                "descripcion_detallada":
+                {
+                    "type": "string",
+                    "description": "Descripcion a detalle de la propiedad"
+                }
+            }
+        },
+        "mas_infos":
+        {
+            "type": "array",
+            "items":
+            {
+                "$ref": "#/definitions/mas_info"
+            }
+        },
+        "NuevoInfo":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id_casaInfo":
+                {
+                    "type": "number",
+                    "description": "Guarda el id de la casa."
+                },
+                "descripcion_detallada":
+                {
+                    "type": "string",
+                    "description": "Descripcion a detalle de la propiedad"
+                }
+            }
+        },
+
+        "compra":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "type": "number",
+                    "description": "Codigo unico que permite identificar la compra."
+                },
+                "id_vendedor":
+                {
+                    "type": "number",
+                    "description": "Continene el ID  del vendedor que realizo la venta de la casa"
+                },
+                "id_casa":
+                {
+                    "type": "number",
+                    "description": "Continene el ID  de la casa que fue comprada"
+                },
+                "fecha":
+                {
+                    "type": "string",
+                    "format":"date",
+                    "description": "Guarda la fecha en la que se realizo la compra"
+                },
+                "id_usuario":
+                {
+                    "type": "number",
+                    "description": "Continene el ID del usuario que realizo la compra"
+                }
+            }
+        },
+        "compras":
+        {
+            "type": "array",
+            "items":
+            {
+                "$ref": "#/definitions/compra"
+            }
+        },
+        "NuevaCompra":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id_vendedor":
+                {
+                    "type": "number",
+                    "description": "Guarda el id del vendedor."
+                },
+                "id_casa":
+                {
+                    "type": "number",
+                    "description": "Guarda el id de la casa."
+                },
+                "fecha":
+                {
+                    "type": "string",
+                    "format": "date",
+                    "description": "guarda la fecha en la que se realizo la compra"
+                },
+                "id_usuario":
+                {
+                    "type": "number",
+                    "description": "Guarda el id del usuario que realizo la compra"
+                }
+            }
+        },
+
+        "cita":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "type": "number",
+                    "description": "Codigo unico que permite identificar la cita."
+                },
+                "id_casaCita":
+                {
+                    "type": "number",
+                    "description": "Continene el ID  de la casa en la que se realizo la cita"
+                },
+                "id_vendedorCita":
+                {
+                    "type": "number",
+                    "description": "Continene el ID  del vendedor que fue a la cita"
+                },
+                "fecha":
+                {
+                    "type": "string",
+                    "format":"date-time",
+                    "description": "Guarda la fecha en la que se realizo la cita"
+                },
+                "id_usuarioCita":
+                {
+                    "type": "number",
+                    "description": "Continene el ID del usuario que agendo la cita"
+                }
+            }
+        },
+        "citas":
+        {
+            "type": "array",
+            "items":
+            {
+                "$ref": "#/definitions/cita"
+            }
+        },
+        "NuevaCita":
+        {
+            "type": "object",
+            "properties":
+            {
+                "id_casaCita":
+                {
+                    "type": "number",
+                    "description": "Continene el ID  de la casa en la que se realizara la cita"
+                },
+                "id_vendedorCita":
+                {
+                    "type": "number",
+                    "description": "Continene el ID  del vendedor que realizara la cita"
+                },
+                "fecha":
+                {
+                    "type": "string",
+                    "format":"date-time",
+                    "description": "Guarda la fecha en la que se realizara la cita"
+                },
+                "id_usuarioCita":
+                {
+                    "type": "number",
+                    "description": "Continene el ID del usuario que agendo la cita"
+                }
+            }
+        },
+        "verificar":{
+            "type": "object",
+            "properties":
+            {
+                "correo":
+                {
+                    "type": "string",
+                    "description": "Correo"
+                },
+                "contrasenia":
+                {
+                    "type": "string",
+                    "description": "Contrasenia"
                 }
             }
         }

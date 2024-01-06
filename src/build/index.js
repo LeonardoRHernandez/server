@@ -12,9 +12,11 @@ const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const usuariosRoutes_1 = __importDefault(require("./routes/usuariosRoutes"));
 const vendedoresRoutes_1 = __importDefault(require("./routes/vendedoresRoutes"));
 const casasRoutes_1 = __importDefault(require("./routes/casasRoutes"));
-
+const administradoresRoutes_1 = __importDefault(require("./routes/administradoresRoutes"));
 const nosotrosRoutes_1 = __importDefault(require("./routes/nosotrosRoutes"));
-const ventasRoutes_1 = __importDefault(require("./routes/ventasRoutes"));
+const mas_infoRoutes_1 = __importDefault(require("./routes/mas_infoRoutes"));
+const comprasRoutes_1 = __importDefault(require("./routes/comprasRoutes"));
+const citasRoutes_1 = __importDefault(require("./routes/citasRoutes"));
 
 class Server {
     constructor() {
@@ -36,7 +38,10 @@ class Server {
         this.app.use('/api/vendedores', vendedoresRoutes_1.default);
         this.app.use('/api/casas', casasRoutes_1.default);
         this.app.use('/api/nosotros', nosotrosRoutes_1.default);
-        this.app.use('/api/ventas', ventasRoutes_1.default);
+        this.app.use('/api/mas_info', mas_infoRoutes_1.default);
+        this.app.use('/api/compras', comprasRoutes_1.default);
+        this.app.use('/api/citas', citasRoutes_1.default);
+        this.app.use('/api/administradores', administradoresRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
